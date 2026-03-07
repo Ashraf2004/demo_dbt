@@ -1,5 +1,5 @@
 demo_dbt:
-  target: dev
+  target: dev # default
   outputs:
     dev:
       type: snowflake
@@ -7,5 +7,16 @@ demo_dbt:
       warehouse: COMPUTE_WH
       database: POC_DBT_PROJECT
       schema: UTILS
-      account: ''
-      user: ''
+      account: ''   # uses current account
+      user: ''      # uses current user
+
+    prod:
+      type: snowflake
+      role: ACCOUNTADMIN
+      warehouse: COMPUTE_WH
+      database: POC_DBT_PROJECT
+      schema: UTILS
+      account: 'not needed'
+      user: 'not needed' 
+
+# when you run dbt command the workspace uses the select profile command
