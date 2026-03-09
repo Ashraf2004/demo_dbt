@@ -2,71 +2,69 @@ name: Incoming PR
 run-name: PR opened by ${{ github.actor }}
 
 on:
-pull_request:
-types: [opened, synchronize, reopened, ready_for_review]
-branches:
-- main
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
 
 permissions:
-contents: read
-id-token: write
+  contents: read
+  id-token: write
 
 jobs:
-run-snowflake-test-dbt-job:
-name: Run dbt CI on PR
-runs-on: ubuntu-latest
-environment: prod
+  run-snowflake-test-dbt-job:
+    name: Run dbt CI on PR
+    runs-on: ubuntu-latest
+    environment: prod
 
-```
-env:
-  SNOWFLAKE_CLI_FEATURES_ENABLE_DBT: true
-  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-  SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE }}
-  SNOWFLAKE_SCHEMA: ${{ vars.SNOWFLAKE_SCHEMA }}
+    env:
+      SNOWFLAKE_CLI_FEATURES_ENABLE_DBT: true
+      SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE }}
+      SNOWFLAKE_SCHEMA: ${{ vars.SNOWFLAKE_SCHEMA }}
 
-steps:
-  # Checkout repository
-  - name: Checkout repository
-    uses: actions/checkout@v4
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  # Install Snowflake CLI
-  - name: Install Snowflake CLI
-    uses: snowflakedb/snowflake-cli-action@v2.0
-    with:
-      use-oidc: true
+      # Install Snowflake CLI
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          use-oidc: true
 
-  # Verify CLI installation
-  - name: Check Snowflake CLI version
-    run: snow --version
+      # Verify CLI installation
+      - name: Check Snowflake CLI version
+        run: snow --version
 
-  # Test Snowflake connection
-  - name: Test Snowflake connection
-    run: snow connection test -x
+      # Test Snowflake connection
+      - name: Test Snowflake connection
+        run: snow connection test -x
 
-  # Install dbt dependencies
-  - name: Install dbt dependencies
-    run: snow dbt deps -x
+      # Install dbt dependencies 
+      - name: Install dbt dependencies 
+        run: snow dbt deps -x
 
-  # Deploy dbt project to Snowflake
-  - name: Deploy dbt project
-    run: |
-      snow dbt deploy my_tester_dbt_project_object_gh_action \
-      --source . \
-      --dbt-version 1.10.15 \
-      --force \
-      -x
+      # Deploy dbt project to Snowflake
+      - name: Deploy dbt project
+        run: |
+          snow dbt deploy my_tester_dbt_project_object_gh_action \
+          --source . \
+          --dbt-version 1.10.15 \
+          --force \
+          -x
 
-  # List dbt project objects
-  - name: List dbt projects
-    run: snow dbt list -x
+      # List dbt project objects
+      - name: List dbt projects
+        run: snow dbt list -x
 
-  # Run dbt models
-  - name: Run dbt models
-    run: |
-      snow dbt execute -x my_tester_dbt_project_object_gh_action run --target dev
+      # Run dbt models
+      - name: Run dbt models
+        run: |
+          snow dbt execute -x my_tester_dbt_project_object_gh_action run --target dev
 
-  # Run dbt tests
-  - name: Run dbt tests
-    run: |
-      snow dbt execute -x my_tester_dbt_project_object_gh_action test --target dev
-```
+      # Run dbt tests
+      - name: Run dbt tests
+        run: |
+          snow dbt execute -x my_tester_dbt_project_object_gh_action test --target dev
