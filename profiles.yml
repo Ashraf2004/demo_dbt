@@ -20,3 +20,4 @@ demo_dbt:
       user: 'not needed' 
 
 # when you run dbt command the workspace uses the select profile command
+
