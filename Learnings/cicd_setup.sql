@@ -1,12 +1,12 @@
 -- first we need to create a service user follow below steps:
 
 -- STEP 1 : CREATE SERVICE USER
-CREATE USER IF NOT EXISTS github_actions_service_user
+CREATE or replace USER github_actions_service_user
   TYPE = SERVICE
   WORKLOAD_IDENTITY = (
     TYPE = OIDC
     ISSUER = 'https://token.actions.githubusercontent.com',
-    SUBJECT = 'repo:github.com/Ashraf2004/demo_dbt:environment:prod'
+    SUBJECT = 'repo:Ashraf2004/demo_dbt:environment:prod'
   )
   DEFAULT_ROLE = SYSADMIN
   COMMENT = 'Service user for GitHub Actions';
