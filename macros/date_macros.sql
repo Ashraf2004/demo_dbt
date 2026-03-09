@@ -21,5 +21,3 @@
         else year({{ date_column }}) - 1
     end
 {% endmacro %}
-
-#check this
