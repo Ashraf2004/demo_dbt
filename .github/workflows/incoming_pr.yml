@@ -42,7 +42,11 @@ jobs:
       - name: Test Snowflake connection
         run: snow connection test -x
 
-      # Install dbt dependencies 
+      # Install dbt
+      - name: Install dbt
+        run: pip install dbt-core dbt-snowflake
+
+      # Install dbt dependencies
       - name: Install dbt dependencies 
         run: dbt deps
 
