@@ -1,21 +1,32 @@
-
 version: 2
 
 models:
-  - name: my_first_dbt_model
-    description: "A starter dbt model"
+  - name: sales_data
+    description: "Sales data with custom macro transformations"
     columns:
-      - name: id
-        description: "The primary key for this table"
-        data_tests:
+      - name: sale_id
+        description: "Unique sale identifier"
+        tests:
+          - unique
+          - not_null
+      - name: customer_name_clean
+        description: "Cleaned customer name (trimmed and uppercased)"
+      - name: amount_dollars
+        description: "Sale amount converted from cents to dollars"
+      - name: fiscal_year
+        description: "Fiscal year (starting in April)"
+
+  - name: date_dimension
+    description: "Date dimension table generated using macro"
+    columns:
+      - name: date_day
+        description: "Calendar date"
+        tests:
           - unique
           - not_null
 
-  - name: my_second_dbt_model
-    description: "A starter dbt model"
+  - name: sales_with_utils
+    description: "Sales data enriched with dbt_utils macros"
     columns:
-      - name: id
-        description: "The primary key for this table"
-        data_tests:
-          - unique
-          - not_null
+      - name: surrogate_key
+        description: "Generated surrogate key using dbt_utils"
