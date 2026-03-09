@@ -44,7 +44,7 @@ jobs:
 
       # Install dbt dependencies 
       - name: Install dbt dependencies 
-        run: snow dbt deps -x
+        run: dbt deps
 
       # Deploy dbt project to Snowflake
       - name: Deploy dbt project
