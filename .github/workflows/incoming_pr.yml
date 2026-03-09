@@ -45,8 +45,7 @@ steps:
 
   # Install dbt dependencies
   - name: Install dbt dependencies
-    run: |
-      snow dbt deps -x
+    run: snow dbt deps -x
 
   # Deploy dbt project to Snowflake
   - name: Deploy dbt project
