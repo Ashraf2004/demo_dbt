@@ -24,7 +24,6 @@ jobs:
       SNOWFLAKE_SCHEMA: ${{ vars.SNOWFLAKE_SCHEMA }}
 
     steps:
-
       # Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,29 +38,29 @@ jobs:
       - name: Check Snowflake CLI version
         run: snow --version
 
-      # Test connection to Snowflake
+      # Test Snowflake connection
       - name: Test Snowflake connection
         run: snow connection test -x
 
       # Deploy dbt project to Snowflake
       - name: Deploy dbt project
         run: |
-          snow dbt deploy demo_dbt_project \
+          snow dbt deploy my_tester_dbt_project_object_gh_action \
           --source . \
           --dbt-version 1.10.15 \
           --force \
           -x
 
-      # List dbt projects in Snowflake
-      - name: List Snowflake dbt projects
+      # List dbt project objects
+      - name: List dbt projects
         run: snow dbt list -x
 
       # Run dbt models
       - name: Run dbt models
         run: |
-          snow dbt execute -x demo_dbt_project run --target dev
+          snow dbt execute -x my_tester_dbt_project_object_gh_action run --target dev
 
       # Run dbt tests
       - name: Run dbt tests
         run: |
-          snow dbt execute -x demo_dbt_project test --target dev
+          snow dbt execute -x my_tester_dbt_project_object_gh_action test --target dev
