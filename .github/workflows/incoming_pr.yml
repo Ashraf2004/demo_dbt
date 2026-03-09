@@ -30,7 +30,7 @@ jobs:
 
       # Install Snowflake CLI
       - name: Install Snowflake CLI
-        uses: snowflakedb/snowflake-cli-action@v2
+        uses: snowflakedb/snowflake-cli-action@v2.0
         with:
           use-oidc: true
 
