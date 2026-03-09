@@ -11,6 +11,9 @@ CREATE or replace USER github_actions_service_user
   DEFAULT_ROLE = SYSADMIN
   COMMENT = 'Service user for GitHub Actions';
 
+  ALTER USER github_actions_service_user
+SET DEFAULT_ROLE = DBT_CICD_ROLE;
+
 -- STEP 2 : GRANT ROLE TO USER
 CREATE ROLE DBT_CICD_ROLE;
 

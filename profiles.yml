@@ -3,7 +3,7 @@ demo_dbt:
   outputs:
     dev:
       type: snowflake
-      role: ACCOUNTADMIN
+      role: DBT_CICD_ROLE
       warehouse: COMPUTE_WH
       database: POC_DBT_PROJECT
       schema: UTILS
@@ -12,7 +12,7 @@ demo_dbt:
 
     prod:
       type: snowflake
-      role: ACCOUNTADMIN
+      role: DBT_CICD_ROLE
       warehouse: COMPUTE_WH
       database: POC_DBT_PROJECT
       schema: UTILS
