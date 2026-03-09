@@ -88,3 +88,24 @@ show tables in schema poc_dbt_project.utils
 SELECT table_name
 FROM poc_dbt_project.information_schema.tables
 WHERE table_schema = '';
+
+
+create schema POC_DBT_PROJECT.UTILS_STAGING
+
+select * from DBT_PROJECT_EXECUTION_HISTORY
+
+DESCRIBE DBT PROJECT poc_sf_dbt_project;
+
+--- versions
+
+SHOW VERSIONS IN DBT PROJECT POC_SF_DBT_PROJECT;
+
+-- run specific version
+EXECUTE DBT PROJECT POC_SF_DBT_PROJECT
+ARGS='run'
+VERSION='VERSION$1';
+
+---- from git repo directly without using workspace
+CREATE OR REPLACE GIT REPOSITORY my_git_repo
+API_INTEGRATION = my_git_integration
+ORIGIN = 'https://github.com/<org>/<repo>.git';
