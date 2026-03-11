@@ -1,7 +1,8 @@
 {{ config(materialized='view') }}
 
 {%- set yaml_metadata -%}
-source_model: "{{ source('raw_data', 'raw_orders') }}"
+source_model:
+  raw_data: raw_orders
 derived_columns:
   RECORD_SOURCE: '!RAW_ORDERS'
   LOAD_DATE: 'CURRENT_TIMESTAMP()'
