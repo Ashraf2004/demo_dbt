@@ -1,0 +1,263 @@
+name: DBT CI Tests
+run-name: DBT CI Tests triggered by ${{ github.actor }}
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  SNOWFLAKE_CLI_FEATURES_ENABLE_DBT: true
+  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+  SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE }}
+  SNOWFLAKE_SCHEMA: ${{ vars.SNOWFLAKE_SCHEMA }}
+  DBT_PROJECT_NAME: my_tester_dbt_project_object_gh_action
+  DBT_VERSION: 1.10.15
+
+jobs:
+  setup-and-validate:
+    name: Setup and Validate
+    runs-on: ubuntu-latest
+    environment: prod
+    outputs:
+      cache-hit: ${{ steps.cache-deps.outputs.cache-hit }}
+      
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Cache Python dependencies
+      - name: Cache Python dependencies
+        id: cache-python
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/packages.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # Install Snowflake CLI (cached)
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          use-oidc: true
+
+      # Verify CLI installation
+      - name: Check Snowflake CLI version
+        run: snow --version
+
+      # Test Snowflake connection
+      - name: Test Snowflake connection
+        run: snow connection test -x
+
+      # Install dbt with caching
+      - name: Install dbt
+        run: |
+          pip install dbt-core==${{ env.DBT_VERSION }} dbt-snowflake
+
+      # Cache dbt dependencies
+      - name: Cache dbt dependencies
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            dbt_packages/
+            ~/.dbt/
+          key: ${{ runner.os }}-dbt-deps-${{ hashFiles('packages.yml', 'dbt_project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-dbt-deps-
+
+      # Install dbt dependencies only if cache miss
+      - name: Install dbt dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: dbt deps
+
+      # Validate dbt project structure
+      - name: Validate dbt project
+        run: |
+          dbt debug --target dev
+          dbt parse --target dev
+
+  deploy-and-test:
+    name: Deploy and Test DBT
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: setup-and-validate
+    
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Restore Python cache
+      - name: Restore Python dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/packages.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # Install Snowflake CLI
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          use-oidc: true
+
+      # Install dbt
+      - name: Install dbt
+        run: |
+          pip install dbt-core==${{ env.DBT_VERSION }} dbt-snowflake
+
+      # Restore dbt dependencies cache
+      - name: Restore dbt dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            dbt_packages/
+            ~/.dbt/
+          key: ${{ runner.os }}-dbt-deps-${{ hashFiles('packages.yml', 'dbt_project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-dbt-deps-
+
+      # Install dbt dependencies if not cached
+      - name: Install dbt dependencies (fallback)
+        run: dbt deps
+
+      # Check if DBT project already exists
+      - name: Check existing DBT project
+        id: check-project
+        run: |
+          if snow dbt list -x | grep -q "${{ env.DBT_PROJECT_NAME }}"; then
+            echo "project-exists=true" >> $GITHUB_OUTPUT
+            echo "DBT project already exists"
+          else
+            echo "project-exists=false" >> $GITHUB_OUTPUT
+            echo "DBT project does not exist"
+          fi
+        continue-on-error: true
+
+      # Deploy dbt project only if it doesn't exist or force update
+      - name: Deploy dbt project
+        if: steps.check-project.outputs.project-exists != 'true' || github.event_name == 'push'
+        run: |
+          snow dbt deploy ${{ env.DBT_PROJECT_NAME }} \
+            --source . \
+            --dbt-version ${{ env.DBT_VERSION }} \
+            --force \
+            -x
+
+      # Update existing project (lighter operation)
+      - name: Update dbt project
+        if: steps.check-project.outputs.project-exists == 'true' && github.event_name != 'push'
+        run: |
+          echo "Updating existing DBT project..."
+          # You can add specific update commands here if needed
+
+      # List dbt projects for verification
+      - name: List dbt projects
+        run: snow dbt list -x
+
+  run-dbt-models:
+    name: Run DBT Models
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: deploy-and-test
+    
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Snowflake CLI
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          use-oidc: true
+
+      # Run staging models first
+      - name: Run staging models
+        run: |
+          snow dbt execute -x ${{ env.DBT_PROJECT_NAME }} run --select staging --target dev
+
+      # Run all models
+      - name: Run all dbt models
+        run: |
+          snow dbt execute -x ${{ env.DBT_PROJECT_NAME }} run --target dev
+
+  run-dbt-tests:
+    name: Run DBT Tests
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: run-dbt-models
+    
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Snowflake CLI
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          use-oidc: true
+
+      # Run dbt tests
+      - name: Run dbt tests
+        run: |
+          snow dbt execute -x ${{ env.DBT_PROJECT_NAME }} test --target dev
+
+      # Generate and upload test results (optional)
+      - name: Generate test report
+        if: always()
+        run: |
+          echo "DBT tests completed"
+          # You can add test result parsing here if needed
+
+  cleanup:
+    name: Cleanup (Optional)
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: [run-dbt-models, run-dbt-tests]
+    if: always() && github.event_name == 'pull_request'
+    
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Snowflake CLI
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          use-oidc: true
+
+      # Optional: Clean up test data or temporary objects
+      - name: Cleanup test resources
+        run: |
+          echo "Cleaning up test resources..."
+          # Add cleanup commands here if needed
+          # Example: Drop temporary schemas, tables, etc.

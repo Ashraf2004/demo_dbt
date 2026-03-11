@@ -7,8 +7,8 @@ demo_dbt:
       warehouse: COMPUTE_WH
       database: POC_DBT_PROJECT
       schema: UTILS
-      account: ''   # uses current account
-      user: ''      # uses current user
+      account: 'your-account-identifier'   # Your Snowflake account
+      user: 'your-username'      # Your Snowflake username
 
     prod:
       type: snowflake
