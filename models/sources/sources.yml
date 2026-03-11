@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+  - name: raw_data
+    description: Raw source data
+    tables:
+      - name: raw_customers
+        description: Raw customer data
+        columns:
+          - name: customer_id
+            description: Unique customer identifier
+          - name: first_name
+            description: Customer first name
+          - name: last_name
+            description: Customer last name
+          - name: email
+            description: Customer email address
+          - name: phone
+            description: Customer phone number
+
+      - name: raw_orders
+        description: Raw order data
+        columns:
+          - name: order_id
+            description: Unique order identifier
+          - name: customer_id
+            description: Customer who placed the order
+          - name: order_date
+            description: Date the order was placed
+          - name: total_amount
+            description: Total order amount
+          - name: status
+            description: Order status

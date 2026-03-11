@@ -35,4 +35,18 @@ models:
     example:
       +materialized: view
       +schema: staging 
-      # try to build ci
+    
+    # Data Vault configurations
+    staging:
+      +materialized: view
+      +schema: staging
+    
+    raw_vault:
+      +materialized: incremental
+      +schema: raw_vault
+      hubs:
+        +tags: ['hub']
+      links:
+        +tags: ['link']  
+      satellites:
+        +tags: ['satellite']
