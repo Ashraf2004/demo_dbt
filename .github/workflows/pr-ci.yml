@@ -1,0 +1,149 @@
+name: Incoming PR
+run-name: PR opened by ${{ github.actor }}
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  SNOWFLAKE_CLI_FEATURES_ENABLE_DBT: true
+  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+  SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE }}
+  SNOWFLAKE_SCHEMA: ${{ vars.SNOWFLAKE_SCHEMA }}
+  DBT_PROJECT_NAME: my_tester_dbt_project_object_gh_action
+  DBT_VERSION: 1.10.15
+
+jobs:
+  dbt-ci:
+    name: Run dbt CI on PR
+    runs-on: ubuntu-latest
+    environment: prod
+    
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Cache Python dependencies
+      - name: Cache Python dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-dbt-${{ env.DBT_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-pip-dbt-
+
+      # Setup Python with caching
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # Install Snowflake CLI
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          use-oidc: true
+
+      # Verify CLI installation
+      - name: Check Snowflake CLI version
+        run: snow --version
+
+      # Test Snowflake connection
+      - name: Test Snowflake connection
+        run: snow connection test -x
+
+      # Install dbt (cached)
+      - name: Install dbt
+        run: |
+          pip install dbt-core==${{ env.DBT_VERSION }} dbt-snowflake
+
+      # Cache dbt dependencies
+      - name: Cache dbt dependencies
+        id: cache-dbt-deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            dbt_packages/
+            ~/.dbt/
+          key: ${{ runner.os }}-dbt-deps-${{ hashFiles('packages.yml', 'dbt_project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-dbt-deps-
+
+      # Install dbt dependencies only if cache miss
+      - name: Install dbt dependencies
+        if: steps.cache-dbt-deps.outputs.cache-hit != 'true'
+        run: dbt deps
+
+      # Validate dbt project
+      - name: Validate dbt project
+        run: |
+          dbt debug --target dev
+          dbt parse --target dev
+
+      # Check if DBT project exists in Snowflake
+      - name: Check existing DBT project
+        id: check-project
+        run: |
+          if snow dbt list -x 2>/dev/null | grep -q "${{ env.DBT_PROJECT_NAME }}"; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "DBT project exists, will update"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "DBT project does not exist, will deploy fresh"
+          fi
+        continue-on-error: true
+
+      # Deploy dbt project (only if doesn't exist or force update needed)
+      - name: Deploy/Update dbt project
+        run: |
+          if [[ "${{ steps.check-project.outputs.exists }}" == "true" ]]; then
+            echo "Updating existing DBT project..."
+            snow dbt deploy ${{ env.DBT_PROJECT_NAME }} \
+              --source . \
+              --dbt-version ${{ env.DBT_VERSION }} \
+              --force \
+              -x
+          else
+            echo "Deploying new DBT project..."
+            snow dbt deploy ${{ env.DBT_PROJECT_NAME }} \
+              --source . \
+              --dbt-version ${{ env.DBT_VERSION }} \
+              --force \
+              -x
+          fi
+
+      # List dbt project objects
+      - name: List dbt projects
+        run: snow dbt list -x
+
+      # Run dbt models with error handling
+      - name: Run dbt models
+        run: |
+          echo "Running DBT models..."
+          snow dbt execute -x ${{ env.DBT_PROJECT_NAME }} run --target dev
+        continue-on-error: false
+
+      # Run dbt tests with error handling
+      - name: Run dbt tests
+        run: |
+          echo "Running DBT tests..."
+          snow dbt execute -x ${{ env.DBT_PROJECT_NAME }} test --target dev
+        continue-on-error: false
+
+      # Summary step
+      - name: CI Summary
+        if: always()
+        run: |
+          echo "=== DBT CI Summary ==="
+          echo "Project: ${{ env.DBT_PROJECT_NAME }}"
+          echo "DBT Version: ${{ env.DBT_VERSION }}"
+          echo "Target: dev"
+          echo "Status: ${{ job.status }}"
