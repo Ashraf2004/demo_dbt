@@ -16,3 +16,4 @@ ALTER SCHEMA poc_dbt_project.utils SET METRIC_LEVEL = 'ALL';
 --project-dir
 --log-format
 --log-format-file
+
