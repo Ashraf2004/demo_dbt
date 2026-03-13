@@ -1,1 +1,198 @@
+"""
+fetch_manifest.py
+─────────────────────────────────────────────────────────────────
+STANDALONE SCRIPT — runs BEFORE Airflow parses the DAG.
 
+Responsibilities:
+  1. Connect to Snowflake
+  2. Execute dbt compile → get query_id
+  3. SYSTEM$LOCATE_DBT_ARTIFACTS(query_id) → snow:// path
+  4. GET manifest.json directly from snow:// into memory
+  5. Save manifest.json to /opt/airflow/dags/manifest/manifest.json
+
+Run this:
+  - Once manually before first DAG run
+  - As a CI/CD step after every dbt project deployment
+  - As an Airflow pre-DAG hook or ExternalPythonOperator
+
+Usage:
+  python fetch_manifest.py
+
+Environment variables required:
+  SNOWFLAKE_ACCOUNT, SNOWFLAKE_USER, SNOWFLAKE_PASSWORD,
+  SNOWFLAKE_WAREHOUSE, SNOWFLAKE_ROLE  (optional: defaults below)
+─────────────────────────────────────────────────────────────────
+"""
+
+import json
+import os
+import gzip
+import tempfile
+import logging
+import sys
+
+import snowflake.connector
+
+logging.basicConfig(
+    level  = logging.INFO,
+    format = "%(asctime)s [%(levelname)s] %(message)s"
+)
+logger = logging.getLogger(__name__)
+
+# ─────────────────────────────────────────────────────────────────
+# CONFIG
+# ─────────────────────────────────────────────────────────────────
+SNOWFLAKE_ACCOUNT   = os.environ.get("SNOWFLAKE_ACCOUNT",   "your_account")
+SNOWFLAKE_USER      = os.environ.get("SNOWFLAKE_USER",      "your_user")
+SNOWFLAKE_PASSWORD  = os.environ.get("SNOWFLAKE_PASSWORD",  "your_password")
+SNOWFLAKE_WAREHOUSE = os.environ.get("SNOWFLAKE_WAREHOUSE", "COMPUTE_WH")
+SNOWFLAKE_ROLE      = os.environ.get("SNOWFLAKE_ROLE",      "your_role")
+
+DBT_DATABASE       = "POC_DBT_PROJECT"
+DBT_SCHEMA         = "UTILS"
+DBT_PROJECT_OBJECT = "MY_TESTER_DBT_PROJECT_OBJECT_GH_ACTION"
+
+# Where to save — DAG reads from this exact path at parse time
+MANIFEST_DIR  = "/opt/airflow/dags/manifest"
+MANIFEST_PATH = os.path.join(MANIFEST_DIR, "manifest.json")
+
+
+# ═════════════════════════════════════════════════════════════════
+# STEP 1 — Connect to Snowflake
+# ═════════════════════════════════════════════════════════════════
+def get_snowflake_connection():
+    logger.info("Connecting to Snowflake...")
+    conn = snowflake.connector.connect(
+        account   = SNOWFLAKE_ACCOUNT,
+        user      = SNOWFLAKE_USER,
+        password  = SNOWFLAKE_PASSWORD,
+        database  = DBT_DATABASE,
+        schema    = DBT_SCHEMA,
+        warehouse = SNOWFLAKE_WAREHOUSE,
+        role      = SNOWFLAKE_ROLE,
+    )
+    logger.info("Connected successfully")
+    return conn
+
+
+# ═════════════════════════════════════════════════════════════════
+# STEP 2 — Execute dbt compile → get query_id
+# ═════════════════════════════════════════════════════════════════
+def run_dbt_compile(cur) -> str:
+    logger.info("Running dbt compile...")
+
+    compile_sql = (
+        f"EXECUTE DBT PROJECT "
+        f"{DBT_DATABASE}.{DBT_SCHEMA}.{DBT_PROJECT_OBJECT} "
+        f"args = 'compile'"
+    )
+    logger.info(f"SQL: {compile_sql}")
+    cur.execute(compile_sql)
+
+    query_id = cur.sfqid
+    logger.info(f"dbt compile complete. Query ID: {query_id}")
+    return query_id
+
+
+# ═════════════════════════════════════════════════════════════════
+# STEP 3 + 4 — Locate snow:// path, GET manifest into memory
+# ═════════════════════════════════════════════════════════════════
+def fetch_manifest(cur, query_id: str) -> dict:
+    # Locate artifacts
+    logger.info(f"Locating artifacts for query_id: {query_id}")
+    cur.execute(f"SELECT SYSTEM$LOCATE_DBT_ARTIFACTS('{query_id}')")
+    artifact_path      = cur.fetchone()[0]
+    manifest_snow_path = artifact_path.rstrip('/') + '/target/manifest.json'
+    logger.info(f"Manifest snow path: {manifest_snow_path}")
+
+    # GET directly into temp dir — no stage, no copy
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        get_sql = f"GET '{manifest_snow_path}' file://{tmp_dir}/"
+        logger.info(f"Executing: {get_sql}")
+        cur.execute(get_sql)
+        logger.info(f"GET result: {cur.fetchall()}")
+
+        plain_path = os.path.join(tmp_dir, "manifest.json")
+        gz_path    = os.path.join(tmp_dir, "manifest.json.gz")
+
+        if os.path.exists(plain_path):
+            logger.info("Reading uncompressed manifest.json")
+            with open(plain_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+
+        elif os.path.exists(gz_path):
+            logger.info("Reading compressed manifest.json.gz")
+            with gzip.open(gz_path, 'rt', encoding='utf-8') as f:
+                return json.load(f)
+
+        else:
+            raise FileNotFoundError(
+                f"manifest.json not found. Files in tmp: {os.listdir(tmp_dir)}"
+            )
+
+
+# ═════════════════════════════════════════════════════════════════
+# STEP 5 — Save manifest.json to disk
+# ═════════════════════════════════════════════════════════════════
+def save_manifest(manifest: dict):
+    os.makedirs(MANIFEST_DIR, exist_ok=True)
+
+    with open(MANIFEST_PATH, 'w', encoding='utf-8') as f:
+        json.dump(manifest, f, indent=2)
+
+    # Print summary
+    metadata = manifest.get('metadata', {})
+    nodes    = manifest.get('nodes', {})
+    models   = [n for n in nodes.values() if n.get('resource_type') == 'model']
+
+    logger.info("=" * 60)
+    logger.info("MANIFEST SAVED SUCCESSFULLY")
+    logger.info(f"  Path      : {MANIFEST_PATH}")
+    logger.info(f"  Project   : {metadata.get('project_name')}")
+    logger.info(f"  dbt ver   : {metadata.get('dbt_version')}")
+    logger.info(f"  Generated : {metadata.get('generated_at')}")
+    logger.info(f"  Models    : {len(models)}")
+    logger.info("=" * 60)
+    logger.info("Models found:")
+    for node_id, node in nodes.items():
+        if node.get('resource_type') == 'model':
+            deps = node.get('depends_on', {}).get('nodes', [])
+            dep_names = [d.split('.')[-1] for d in deps]
+            logger.info(f"  {node['name']:40s} depends_on: {dep_names}")
+    logger.info("=" * 60)
+    logger.info("Airflow DAG will now build full task graph on next parse.")
+
+
+# ═════════════════════════════════════════════════════════════════
+# MAIN
+# ═════════════════════════════════════════════════════════════════
+def main():
+    logger.info("=" * 60)
+    logger.info("fetch_manifest.py — dbt manifest pre-loader")
+    logger.info("=" * 60)
+
+    conn = get_snowflake_connection()
+    cur  = conn.cursor()
+
+    try:
+        # Step 2: compile → query_id
+        query_id = run_dbt_compile(cur)
+
+        # Step 3+4: locate + GET manifest into memory
+        manifest = fetch_manifest(cur, query_id)
+
+        # Step 5: save to disk for DAG parse
+        save_manifest(manifest)
+
+        logger.info("Done. Run or re-trigger your Airflow DAG now.")
+
+    except Exception as e:
+        logger.error(f"fetch_manifest failed: {e}")
+        sys.exit(1)
+    finally:
+        cur.close()
+        conn.close()
+
+
+if __name__ == "__main__":
+    main()
