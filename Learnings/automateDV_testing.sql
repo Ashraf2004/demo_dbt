@@ -53,3 +53,37 @@ select * from POC_DBT_PROJECT.UTILS_RAW_VAULT.SAT_CUSTOMER
 
 SELECT * FROM POC_DBT_PROJECT.RAW_VAULT.RAW_CUSTOMERS;
 UPDATE POC_DBT_PROJECT.RAW_VAULT.RAW_CUSTOMERS SET EMAIL = 'john.shaik@email.com' where EMAIL = 'john.doe@email.com'
+
+---------------------------------------------------------
+
+-- manifest_file.json --> after executing the dbt project
+
+SELECT SYSTEM$LOCATE_DBT_ARTIFACTS('01c2f8c8-0001-a8c7-000c-9f8600057ffa');
+
+LIST 'snow://dbt/POC_DBT_PROJECT.UTILS.MY_TESTER_DBT_PROJECT_OBJECT_GH_ACTION/results/query_id_01c2f8c8-0001-a8c7-000c-9f8600057ffa/';
+
+CREATE OR REPLACE STAGE POC_DBT_PROJECT.UTILS.dbt_artifacts_stage;
+
+COPY FILES
+    INTO @POC_DBT_PROJECT.UTILS.dbt_artifacts_stage/
+    FROM 'snow://dbt/POC_DBT_PROJECT.UTILS.MY_TESTER_DBT_PROJECT_OBJECT_GH_ACTION/results/query_id_01c2f8c8-0001-a8c7-000c-9f8600057ffa/target/'
+    FILES = ('manifest.json');
+
+CREATE OR REPLACE FILE FORMAT json_format
+    TYPE = 'JSON'
+    STRIP_OUTER_ARRAY = FALSE;
+
+SELECT
+    *
+FROM @POC_DBT_PROJECT.UTILS.dbt_artifacts_stage/manifest.json
+    (FILE_FORMAT => POC_DBT_PROJECT.UTILS.json_format);
+
+    
+
+------
+
+-- Reads manifest.json DIRECTLY from snow:// path, no stage needed
+SELECT SYSTEM$GET_DBT_ARTIFACT(
+    'POC_DBT_PROJECT.UTILS.MY_TESTER_DBT_PROJECT_OBJECT_GH_ACTION',
+    'manifest.json'
+);

@@ -718,3 +718,495 @@ Compilation Error
 
 =======
 >>>>>>> remote
+
+============================== 05:23:14.505805 | 39868617-ca3b-4056-babc-38637aa6434f ==============================
+[0m05:23:14.505805 [info ] [Dummy-1   ]: Running with dbt=1.9.4
+[0m05:23:14.506900 [debug] [Dummy-1   ]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/tmp/dbt/', 'version_check': 'True', 'fail_fast': 'False', 'log_path': '/tmp/dbt/logs', 'debug': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'False', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'invocation_command': 'dbt ', 'introspect': 'True', 'target_path': '/tmp/dbt/target/', 'log_format': 'default', 'send_anonymous_usage_stats': 'False'}
+[0m05:23:14.886495 [info ] [Dummy-1   ]: Registered adapter: snowflake=1.9.2
+[0m05:23:15.444568 [debug] [Dummy-1   ]: checksum: 53ed91fada2233efb98368d1716b44ab532c83a9c293cf1890b7905d5b45fb25, vars: {}, profile: , target: dev, version: 1.9.4
+[0m05:23:15.779762 [info ] [Dummy-1   ]: Unable to do partial parsing because of a version mismatch
+[0m05:23:20.066798 [debug] [Dummy-1   ]: Wrote artifact WritableManifest to /tmp/dbt/target/manifest.json
+[0m05:23:20.069612 [debug] [Dummy-1   ]: Wrote artifact SemanticManifest to /tmp/dbt/target/semantic_manifest.json
+[0m05:23:20.109612 [info ] [Dummy-1   ]: Found 12 models, 4 data tests, 2 sources, 872 macros
+[0m05:23:20.112830 [info ] [Dummy-1   ]: 
+[0m05:23:20.113421 [info ] [Dummy-1   ]: Concurrency: 1 threads (target='dev')
+[0m05:23:20.113929 [info ] [Dummy-1   ]: 
+[0m05:23:20.114748 [debug] [Dummy-1   ]: Acquiring new snowflake connection 'master'
+[0m05:23:20.122516 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_POC_DBT_PROJECT_UTILS_staging'
+[0m05:23:20.366412 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_staging"
+[0m05:23:20.367071 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_staging: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_staging"} */
+alter session set quoted_identifiers_ignore_case = false;
+[0m05:23:20.367584 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m05:23:20.682232 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.314 seconds
+[0m05:23:20.688056 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_staging"
+[0m05:23:20.688748 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_staging: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_staging"} */
+show objects in POC_DBT_PROJECT.UTILS_staging
+    limit 10000
+    
+;
+[0m05:23:20.759224 [debug] [ThreadPool]: SQL status: SUCCESS 7 in 0.070 seconds
+[0m05:23:20.762171 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_staging"
+[0m05:23:20.762801 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_staging: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_staging"} */
+alter session unset quoted_identifiers_ignore_case;
+[0m05:23:20.812919 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.049 seconds
+[0m05:23:20.815668 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_POC_DBT_PROJECT_UTILS_staging, now list_POC_DBT_PROJECT_UTILS_raw_vault)
+[0m05:23:20.824898 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_raw_vault"
+[0m05:23:20.825523 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_raw_vault: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_raw_vault"} */
+alter session set quoted_identifiers_ignore_case = false;
+[0m05:23:20.826046 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m05:23:21.138332 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.312 seconds
+[0m05:23:21.140760 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_raw_vault"
+[0m05:23:21.141346 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_raw_vault: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_raw_vault"} */
+show objects in POC_DBT_PROJECT.UTILS_raw_vault
+    limit 10000
+    
+;
+[0m05:23:21.218870 [debug] [ThreadPool]: SQL status: SUCCESS 5 in 0.077 seconds
+[0m05:23:21.221581 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_raw_vault"
+[0m05:23:21.222212 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_raw_vault: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_raw_vault"} */
+alter session unset quoted_identifiers_ignore_case;
+[0m05:23:21.277188 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.054 seconds
+[0m05:23:21.287079 [debug] [Thread-2 (]: Began running node model.demo_dbt.date_dimension
+[0m05:23:21.287892 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly list_POC_DBT_PROJECT_UTILS_raw_vault, now model.demo_dbt.date_dimension)
+[0m05:23:21.288532 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.date_dimension
+[0m05:23:21.314237 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.date_dimension"
+[0m05:23:21.314969 [debug] [Thread-2 (]: On model.demo_dbt.date_dimension: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.date_dimension"} */
+select datediff(
+        day,
+        cast('2024-01-01' as date),
+        cast('2024-12-31' as date)
+        )
+[0m05:23:21.315547 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m05:23:21.646703 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 0.331 seconds
+[0m05:23:21.649773 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.date_dimension"
+[0m05:23:21.650813 [debug] [Thread-2 (]: Began executing node model.demo_dbt.date_dimension
+[0m05:23:21.651893 [debug] [Thread-2 (]: Finished running node model.demo_dbt.date_dimension
+[0m05:23:21.652623 [debug] [Thread-2 (]: Began running node model.demo_dbt.my_first_dbt_model
+[0m05:23:21.653797 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.date_dimension, now model.demo_dbt.my_first_dbt_model)
+[0m05:23:21.654427 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.my_first_dbt_model
+[0m05:23:21.661854 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.my_first_dbt_model"
+[0m05:23:21.662677 [debug] [Thread-2 (]: Began executing node model.demo_dbt.my_first_dbt_model
+[0m05:23:21.663681 [debug] [Thread-2 (]: Finished running node model.demo_dbt.my_first_dbt_model
+[0m05:23:21.664380 [debug] [Thread-2 (]: Began running node model.demo_dbt.sales_data
+[0m05:23:21.665319 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.my_first_dbt_model, now model.demo_dbt.sales_data)
+[0m05:23:21.665946 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.sales_data
+[0m05:23:21.674351 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.sales_data"
+[0m05:23:21.675154 [debug] [Thread-2 (]: Began executing node model.demo_dbt.sales_data
+[0m05:23:21.676137 [debug] [Thread-2 (]: Finished running node model.demo_dbt.sales_data
+[0m05:23:21.676818 [debug] [Thread-2 (]: Began running node model.demo_dbt.stg_customers
+[0m05:23:21.677853 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.sales_data, now model.demo_dbt.stg_customers)
+[0m05:23:21.678500 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.stg_customers
+[0m05:23:21.704286 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.stg_customers"
+[0m05:23:21.705943 [debug] [Thread-2 (]: On model.demo_dbt.stg_customers: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.stg_customers"} */
+describe table POC_DBT_PROJECT.RAW_VAULT.raw_customers
+[0m05:23:21.707969 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m05:23:22.039525 [debug] [Thread-2 (]: SQL status: SUCCESS 5 in 0.332 seconds
+[0m05:23:22.052616 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.stg_customers"
+[0m05:23:22.053322 [debug] [Thread-2 (]: On model.demo_dbt.stg_customers: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.stg_customers"} */
+describe table POC_DBT_PROJECT.RAW_VAULT.raw_customers
+[0m05:23:22.101406 [debug] [Thread-2 (]: SQL status: SUCCESS 5 in 0.047 seconds
+[0m05:23:22.115503 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.stg_customers"
+[0m05:23:22.116476 [debug] [Thread-2 (]: Began executing node model.demo_dbt.stg_customers
+[0m05:23:22.117531 [debug] [Thread-2 (]: Finished running node model.demo_dbt.stg_customers
+[0m05:23:22.118312 [debug] [Thread-2 (]: Began running node model.demo_dbt.stg_orders
+[0m05:23:22.119373 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.stg_customers, now model.demo_dbt.stg_orders)
+[0m05:23:22.119985 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.stg_orders
+[0m05:23:22.136621 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.stg_orders"
+[0m05:23:22.138200 [debug] [Thread-2 (]: On model.demo_dbt.stg_orders: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.stg_orders"} */
+describe table POC_DBT_PROJECT.RAW_VAULT.raw_orders
+[0m05:23:22.140252 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m05:23:22.460534 [debug] [Thread-2 (]: SQL status: SUCCESS 5 in 0.321 seconds
+[0m05:23:22.471912 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.stg_orders"
+[0m05:23:22.472606 [debug] [Thread-2 (]: On model.demo_dbt.stg_orders: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.stg_orders"} */
+describe table POC_DBT_PROJECT.RAW_VAULT.raw_orders
+[0m05:23:22.508811 [debug] [Thread-2 (]: SQL status: SUCCESS 5 in 0.035 seconds
+[0m05:23:22.526353 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.stg_orders"
+[0m05:23:22.527316 [debug] [Thread-2 (]: Began executing node model.demo_dbt.stg_orders
+[0m05:23:22.528388 [debug] [Thread-2 (]: Finished running node model.demo_dbt.stg_orders
+[0m05:23:22.529148 [debug] [Thread-2 (]: Began running node test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b
+[0m05:23:22.530285 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.stg_orders, now test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b)
+[0m05:23:22.530906 [debug] [Thread-2 (]: Began compiling node test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b
+[0m05:23:22.551215 [debug] [Thread-2 (]: Writing injected SQL for node "test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b"
+[0m05:23:22.552113 [debug] [Thread-2 (]: Began executing node test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b
+[0m05:23:22.553121 [debug] [Thread-2 (]: Finished running node test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b
+[0m05:23:22.553859 [debug] [Thread-2 (]: Began running node test.demo_dbt.unique_date_dimension_date_day.507d4125ed
+[0m05:23:22.554635 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b, now test.demo_dbt.unique_date_dimension_date_day.507d4125ed)
+[0m05:23:22.555214 [debug] [Thread-2 (]: Began compiling node test.demo_dbt.unique_date_dimension_date_day.507d4125ed
+[0m05:23:22.566715 [debug] [Thread-2 (]: Writing injected SQL for node "test.demo_dbt.unique_date_dimension_date_day.507d4125ed"
+[0m05:23:22.567557 [debug] [Thread-2 (]: Began executing node test.demo_dbt.unique_date_dimension_date_day.507d4125ed
+[0m05:23:22.568590 [debug] [Thread-2 (]: Finished running node test.demo_dbt.unique_date_dimension_date_day.507d4125ed
+[0m05:23:22.569300 [debug] [Thread-2 (]: Began running node model.demo_dbt.my_second_dbt_model
+[0m05:23:22.570088 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.demo_dbt.unique_date_dimension_date_day.507d4125ed, now model.demo_dbt.my_second_dbt_model)
+[0m05:23:22.570665 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.my_second_dbt_model
+[0m05:23:22.577748 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.my_second_dbt_model"
+[0m05:23:22.578588 [debug] [Thread-2 (]: Began executing node model.demo_dbt.my_second_dbt_model
+[0m05:23:22.579608 [debug] [Thread-2 (]: Finished running node model.demo_dbt.my_second_dbt_model
+[0m05:23:22.580305 [debug] [Thread-2 (]: Began running node model.demo_dbt.sales_with_utils
+[0m05:23:22.581045 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.my_second_dbt_model, now model.demo_dbt.sales_with_utils)
+[0m05:23:22.581605 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.sales_with_utils
+[0m05:23:22.592686 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.sales_with_utils"
+[0m05:23:22.593518 [debug] [Thread-2 (]: Began executing node model.demo_dbt.sales_with_utils
+[0m05:23:22.594514 [debug] [Thread-2 (]: Finished running node model.demo_dbt.sales_with_utils
+[0m05:23:22.595216 [debug] [Thread-2 (]: Began running node test.demo_dbt.not_null_sales_data_sale_id.21b39be755
+[0m05:23:22.595953 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.sales_with_utils, now test.demo_dbt.not_null_sales_data_sale_id.21b39be755)
+[0m05:23:22.596515 [debug] [Thread-2 (]: Began compiling node test.demo_dbt.not_null_sales_data_sale_id.21b39be755
+[0m05:23:22.604938 [debug] [Thread-2 (]: Writing injected SQL for node "test.demo_dbt.not_null_sales_data_sale_id.21b39be755"
+[0m05:23:22.605788 [debug] [Thread-2 (]: Began executing node test.demo_dbt.not_null_sales_data_sale_id.21b39be755
+[0m05:23:22.606771 [debug] [Thread-2 (]: Finished running node test.demo_dbt.not_null_sales_data_sale_id.21b39be755
+[0m05:23:22.607456 [debug] [Thread-2 (]: Began running node test.demo_dbt.unique_sales_data_sale_id.8ac8202467
+[0m05:23:22.608186 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.demo_dbt.not_null_sales_data_sale_id.21b39be755, now test.demo_dbt.unique_sales_data_sale_id.8ac8202467)
+[0m05:23:22.608799 [debug] [Thread-2 (]: Began compiling node test.demo_dbt.unique_sales_data_sale_id.8ac8202467
+[0m05:23:22.617220 [debug] [Thread-2 (]: Writing injected SQL for node "test.demo_dbt.unique_sales_data_sale_id.8ac8202467"
+[0m05:23:22.618039 [debug] [Thread-2 (]: Began executing node test.demo_dbt.unique_sales_data_sale_id.8ac8202467
+[0m05:23:22.619038 [debug] [Thread-2 (]: Finished running node test.demo_dbt.unique_sales_data_sale_id.8ac8202467
+[0m05:23:22.619727 [debug] [Thread-2 (]: Began running node model.demo_dbt.hub_customer
+[0m05:23:22.620452 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.demo_dbt.unique_sales_data_sale_id.8ac8202467, now model.demo_dbt.hub_customer)
+[0m05:23:22.621028 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.hub_customer
+[0m05:23:22.648101 [info ] [Thread-2 (]: 05:23:22 + Loading POC_DBT_PROJECT.UTILS_raw_vault.hub_customer from 1 source(s)
+[0m05:23:22.654351 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.hub_customer"
+[0m05:23:22.655268 [debug] [Thread-2 (]: Began executing node model.demo_dbt.hub_customer
+[0m05:23:22.656254 [debug] [Thread-2 (]: Finished running node model.demo_dbt.hub_customer
+[0m05:23:22.656958 [debug] [Thread-2 (]: Began running node model.demo_dbt.sat_customer
+[0m05:23:22.657731 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.hub_customer, now model.demo_dbt.sat_customer)
+[0m05:23:22.658356 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.sat_customer
+[0m05:23:22.674844 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.sat_customer"
+[0m05:23:22.675720 [debug] [Thread-2 (]: Began executing node model.demo_dbt.sat_customer
+[0m05:23:22.676697 [debug] [Thread-2 (]: Finished running node model.demo_dbt.sat_customer
+[0m05:23:22.677405 [debug] [Thread-2 (]: Began running node model.demo_dbt.hub_order
+[0m05:23:22.678181 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.sat_customer, now model.demo_dbt.hub_order)
+[0m05:23:22.678776 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.hub_order
+[0m05:23:22.689385 [info ] [Thread-2 (]: 05:23:22 + Loading POC_DBT_PROJECT.UTILS_raw_vault.hub_order from 1 source(s)
+[0m05:23:22.692809 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.hub_order"
+[0m05:23:22.693614 [debug] [Thread-2 (]: Began executing node model.demo_dbt.hub_order
+[0m05:23:22.694610 [debug] [Thread-2 (]: Finished running node model.demo_dbt.hub_order
+[0m05:23:22.695294 [debug] [Thread-2 (]: Began running node model.demo_dbt.link_customer_order
+[0m05:23:22.696026 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.hub_order, now model.demo_dbt.link_customer_order)
+[0m05:23:22.696602 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.link_customer_order
+[0m05:23:22.706395 [info ] [Thread-2 (]: 05:23:22 + Loading POC_DBT_PROJECT.UTILS_raw_vault.link_customer_order from 1 source(s)
+[0m05:23:22.710228 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.link_customer_order"
+[0m05:23:22.711101 [debug] [Thread-2 (]: Began executing node model.demo_dbt.link_customer_order
+[0m05:23:22.712059 [debug] [Thread-2 (]: Finished running node model.demo_dbt.link_customer_order
+[0m05:23:22.712816 [debug] [Thread-2 (]: Began running node model.demo_dbt.sat_order
+[0m05:23:22.713532 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.link_customer_order, now model.demo_dbt.sat_order)
+[0m05:23:22.714125 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.sat_order
+[0m05:23:22.731642 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.sat_order"
+[0m05:23:22.732518 [debug] [Thread-2 (]: Began executing node model.demo_dbt.sat_order
+[0m05:23:22.733487 [debug] [Thread-2 (]: Finished running node model.demo_dbt.sat_order
+[0m05:23:22.735794 [debug] [Dummy-1   ]: Connection 'master' was properly closed.
+[0m05:23:22.736459 [debug] [Dummy-1   ]: Connection 'model.demo_dbt.sat_order' was properly closed.
+[0m05:23:22.739815 [debug] [Dummy-1   ]: Command end result
+[0m05:23:22.794965 [debug] [Dummy-1   ]: Wrote artifact WritableManifest to /tmp/dbt/target/manifest.json
+[0m05:23:22.797562 [debug] [Dummy-1   ]: Wrote artifact SemanticManifest to /tmp/dbt/target/semantic_manifest.json
+[0m05:23:22.806937 [debug] [Dummy-1   ]: Wrote artifact RunExecutionResult to /tmp/dbt/target/run_results.json
+[0m05:23:22.808898 [debug] [Dummy-1   ]: Resource report: {"command_name": "compile", "command_success": true, "command_wall_clock_time": 8.400955, "process_in_blocks": "0", "process_kernel_time": 1.45, "process_mem_max_rss": "490972", "process_out_blocks": "0", "process_user_time": 9.17}
+[0m05:23:22.809613 [debug] [Dummy-1   ]: Command `cli compile` succeeded at 05:23:22.809335 after 8.40 seconds
+[0m05:23:22.810195 [debug] [Dummy-1   ]: Flushing usage events
+
+
+============================== 05:24:31.387003 | dda089a9-f795-443f-8bf3-a5e36764f077 ==============================
+[0m05:24:31.387003 [info ] [Dummy-1   ]: Running with dbt=1.9.4
+[0m05:24:31.388063 [debug] [Dummy-1   ]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/tmp/dbt/', 'debug': 'False', 'version_check': 'True', 'log_path': '/tmp/dbt/logs', 'warn_error': 'None', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'False', 'quiet': 'False', 'no_print': 'None', 'log_format': 'default', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'target_path': '/tmp/dbt/target/', 'invocation_command': 'dbt ', 'send_anonymous_usage_stats': 'False'}
+[0m05:24:31.760269 [info ] [Dummy-1   ]: Registered adapter: snowflake=1.9.2
+[0m05:24:32.325808 [debug] [Dummy-1   ]: checksum: 53ed91fada2233efb98368d1716b44ab532c83a9c293cf1890b7905d5b45fb25, vars: {}, profile: , target: dev, version: 1.9.4
+[0m05:24:32.792147 [debug] [Dummy-1   ]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m05:24:32.792801 [debug] [Dummy-1   ]: Partial parsing enabled, no changes found, skipping parsing
+[0m05:24:33.009311 [debug] [Dummy-1   ]: Wrote artifact WritableManifest to /tmp/dbt/target/manifest.json
+[0m05:24:33.012161 [debug] [Dummy-1   ]: Wrote artifact SemanticManifest to /tmp/dbt/target/semantic_manifest.json
+[0m05:24:33.062909 [info ] [Dummy-1   ]: Found 12 models, 4 data tests, 2 sources, 872 macros
+[0m05:24:33.065299 [info ] [Dummy-1   ]: 
+[0m05:24:33.065912 [info ] [Dummy-1   ]: Concurrency: 1 threads (target='dev')
+[0m05:24:33.066377 [info ] [Dummy-1   ]: 
+[0m05:24:33.067211 [debug] [Dummy-1   ]: Acquiring new snowflake connection 'master'
+[0m05:24:33.069043 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_POC_DBT_PROJECT'
+[0m05:24:33.176304 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT"
+[0m05:24:33.176942 [debug] [ThreadPool]: On list_POC_DBT_PROJECT: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT"} */
+show terse schemas in database POC_DBT_PROJECT
+    limit 10000
+[0m05:24:33.177435 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m05:24:33.484423 [debug] [ThreadPool]: SQL status: SUCCESS 6 in 0.307 seconds
+[0m05:24:33.494384 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_POC_DBT_PROJECT, now list_POC_DBT_PROJECT_UTILS_raw_vault)
+[0m05:24:33.513369 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_raw_vault"
+[0m05:24:33.514036 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_raw_vault: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_raw_vault"} */
+alter session set quoted_identifiers_ignore_case = false;
+[0m05:24:33.514533 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m05:24:33.816943 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.302 seconds
+[0m05:24:33.822760 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_raw_vault"
+[0m05:24:33.823364 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_raw_vault: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_raw_vault"} */
+show objects in POC_DBT_PROJECT.UTILS_raw_vault
+    limit 10000
+    
+;
+[0m05:24:33.902967 [debug] [ThreadPool]: SQL status: SUCCESS 5 in 0.079 seconds
+[0m05:24:33.905612 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_raw_vault"
+[0m05:24:33.906218 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_raw_vault: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_raw_vault"} */
+alter session unset quoted_identifiers_ignore_case;
+[0m05:24:33.977342 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.070 seconds
+[0m05:24:33.979904 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_POC_DBT_PROJECT_UTILS_raw_vault, now list_POC_DBT_PROJECT_UTILS_staging)
+[0m05:24:33.988406 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_staging"
+[0m05:24:33.988984 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_staging: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_staging"} */
+alter session set quoted_identifiers_ignore_case = false;
+[0m05:24:33.989453 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m05:24:34.292810 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.303 seconds
+[0m05:24:34.295220 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_staging"
+[0m05:24:34.295802 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_staging: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_staging"} */
+show objects in POC_DBT_PROJECT.UTILS_staging
+    limit 10000
+    
+;
+[0m05:24:34.367602 [debug] [ThreadPool]: SQL status: SUCCESS 7 in 0.071 seconds
+[0m05:24:34.370391 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_staging"
+[0m05:24:34.370976 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_staging: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_staging"} */
+alter session unset quoted_identifiers_ignore_case;
+[0m05:24:34.416201 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.045 seconds
+[0m05:24:34.425997 [debug] [Thread-2 (]: Began running node model.demo_dbt.sales_data
+[0m05:24:34.426896 [info ] [Thread-2 (]: 1 of 1 START sql table model UTILS_staging.sales_data .......................... [RUN]
+[0m05:24:34.427643 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly list_POC_DBT_PROJECT_UTILS_staging, now model.demo_dbt.sales_data)
+[0m05:24:34.428724 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.sales_data
+[0m05:24:34.450124 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.sales_data"
+[0m05:24:34.451024 [debug] [Thread-2 (]: Began executing node model.demo_dbt.sales_data
+[0m05:24:34.495622 [debug] [Thread-2 (]: Writing runtime sql for node "model.demo_dbt.sales_data"
+[0m05:24:34.497934 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.sales_data"
+[0m05:24:34.498699 [debug] [Thread-2 (]: On model.demo_dbt.sales_data: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.sales_data"} */
+create or replace transient table POC_DBT_PROJECT.UTILS_staging.sales_data
+         as
+        (
+
+with raw_sales as (
+    select 1 as sale_id, 'john doe' as customer_name, 15000 as amount_cents, '2024-01-15'::date as sale_date
+    union all
+    select 2, 'jane smith', 25000, '2024-02-20'::date
+    union all
+    select 3, 'bob johnson', 35000, '2024-03-10'::date
+    union all
+    select 4, null, 10000, '2024-04-05'::date
+)
+
+select
+    sale_id,
+    
+    trim(upper(customer_name))
+ as customer_name_clean,
+    amount_cents,
+    
+    round(amount_cents / 100.0, 2)
+ as amount_dollars,
+    sale_date,
+    
+    case 
+        when month(sale_date) >= 4
+        then year(sale_date)
+        else year(sale_date) - 1
+    end
+ as fiscal_year,
+    
+    
+        current_timestamp()
+    
+ as loaded_at
+from raw_sales
+where customer_name is not null
+        );
+[0m05:24:34.499318 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m05:24:35.294660 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 0.795 seconds
+[0m05:24:35.328116 [info ] [Thread-2 (]: 1 of 1 OK created sql table model UTILS_staging.sales_data ..................... [[32mSUCCESS 1[0m in 0.90s]
+[0m05:24:35.329200 [debug] [Thread-2 (]: Finished running node model.demo_dbt.sales_data
+[0m05:24:35.332376 [debug] [Dummy-1   ]: Connection 'master' was properly closed.
+[0m05:24:35.332939 [debug] [Dummy-1   ]: Connection 'model.demo_dbt.sales_data' was properly closed.
+[0m05:24:35.333430 [info ] [Dummy-1   ]: 
+[0m05:24:35.333961 [info ] [Dummy-1   ]: Finished running 1 table model in 0 hours 0 minutes and 2.27 seconds (2.27s).
+[0m05:24:35.334895 [debug] [Dummy-1   ]: Command end result
+[0m05:24:35.392504 [debug] [Dummy-1   ]: Wrote artifact WritableManifest to /tmp/dbt/target/manifest.json
+[0m05:24:35.395123 [debug] [Dummy-1   ]: Wrote artifact SemanticManifest to /tmp/dbt/target/semantic_manifest.json
+[0m05:24:35.402792 [debug] [Dummy-1   ]: Wrote artifact RunExecutionResult to /tmp/dbt/target/run_results.json
+[0m05:24:35.403315 [info ] [Dummy-1   ]: 
+[0m05:24:35.403979 [info ] [Dummy-1   ]: [32mCompleted successfully[0m
+[0m05:24:35.404442 [info ] [Dummy-1   ]: 
+[0m05:24:35.404950 [info ] [Dummy-1   ]: Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
+[0m05:24:35.406699 [debug] [Dummy-1   ]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 4.115406, "process_in_blocks": "0", "process_kernel_time": 1.09, "process_mem_max_rss": "434892", "process_out_blocks": "0", "process_user_time": 5.24}
+[0m05:24:35.407360 [debug] [Dummy-1   ]: Command `cli run` succeeded at 05:24:35.407099 after 4.12 seconds
+[0m05:24:35.407902 [debug] [Dummy-1   ]: Flushing usage events
+
+
+============================== 05:25:31.694415 | 5a17ef37-61fc-4a29-9bd2-a171600b1111 ==============================
+[0m05:25:31.694415 [info ] [Dummy-1   ]: Running with dbt=1.9.4
+[0m05:25:31.695545 [debug] [Dummy-1   ]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/tmp/dbt/', 'fail_fast': 'False', 'version_check': 'True', 'log_path': '/tmp/dbt/logs', 'debug': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt ', 'static_parser': 'True', 'log_format': 'default', 'target_path': '/tmp/dbt/target/', 'introspect': 'True', 'send_anonymous_usage_stats': 'False'}
+[0m05:25:32.075265 [info ] [Dummy-1   ]: Registered adapter: snowflake=1.9.2
+[0m05:25:32.646032 [debug] [Dummy-1   ]: checksum: 53ed91fada2233efb98368d1716b44ab532c83a9c293cf1890b7905d5b45fb25, vars: {}, profile: , target: dev, version: 1.9.4
+[0m05:25:33.118971 [debug] [Dummy-1   ]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m05:25:33.119653 [debug] [Dummy-1   ]: Partial parsing enabled, no changes found, skipping parsing
+[0m05:25:33.340299 [debug] [Dummy-1   ]: Wrote artifact WritableManifest to /tmp/dbt/target/manifest.json
+[0m05:25:33.343101 [debug] [Dummy-1   ]: Wrote artifact SemanticManifest to /tmp/dbt/target/semantic_manifest.json
+[0m05:25:33.383665 [info ] [Dummy-1   ]: Found 12 models, 4 data tests, 2 sources, 872 macros
+[0m05:25:33.386884 [info ] [Dummy-1   ]: 
+[0m05:25:33.387478 [info ] [Dummy-1   ]: Concurrency: 1 threads (target='dev')
+[0m05:25:33.387952 [info ] [Dummy-1   ]: 
+[0m05:25:33.388880 [debug] [Dummy-1   ]: Acquiring new snowflake connection 'master'
+[0m05:25:33.396491 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_POC_DBT_PROJECT_UTILS_raw_vault'
+[0m05:25:33.511385 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_raw_vault"
+[0m05:25:33.512051 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_raw_vault: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_raw_vault"} */
+alter session set quoted_identifiers_ignore_case = false;
+[0m05:25:33.512548 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m05:25:33.787842 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.275 seconds
+[0m05:25:33.793755 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_raw_vault"
+[0m05:25:33.794389 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_raw_vault: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_raw_vault"} */
+show objects in POC_DBT_PROJECT.UTILS_raw_vault
+    limit 10000
+    
+;
+[0m05:25:33.872365 [debug] [ThreadPool]: SQL status: SUCCESS 5 in 0.077 seconds
+[0m05:25:33.875193 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_raw_vault"
+[0m05:25:33.875780 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_raw_vault: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_raw_vault"} */
+alter session unset quoted_identifiers_ignore_case;
+[0m05:25:33.919362 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.043 seconds
+[0m05:25:33.921987 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_POC_DBT_PROJECT_UTILS_raw_vault, now list_POC_DBT_PROJECT_UTILS_staging)
+[0m05:25:33.930854 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_staging"
+[0m05:25:33.931451 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_staging: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_staging"} */
+alter session set quoted_identifiers_ignore_case = false;
+[0m05:25:33.931962 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m05:25:34.247977 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.316 seconds
+[0m05:25:34.250615 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_staging"
+[0m05:25:34.251205 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_staging: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_staging"} */
+show objects in POC_DBT_PROJECT.UTILS_staging
+    limit 10000
+    
+;
+[0m05:25:34.319273 [debug] [ThreadPool]: SQL status: SUCCESS 7 in 0.067 seconds
+[0m05:25:34.322377 [debug] [ThreadPool]: Using snowflake connection "list_POC_DBT_PROJECT_UTILS_staging"
+[0m05:25:34.322959 [debug] [ThreadPool]: On list_POC_DBT_PROJECT_UTILS_staging: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "connection_name": "list_POC_DBT_PROJECT_UTILS_staging"} */
+alter session unset quoted_identifiers_ignore_case;
+[0m05:25:34.381091 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.057 seconds
+[0m05:25:34.391692 [debug] [Thread-2 (]: Began running node model.demo_dbt.date_dimension
+[0m05:25:34.392492 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly list_POC_DBT_PROJECT_UTILS_staging, now model.demo_dbt.date_dimension)
+[0m05:25:34.393082 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.date_dimension
+[0m05:25:34.429402 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.date_dimension"
+[0m05:25:34.430140 [debug] [Thread-2 (]: On model.demo_dbt.date_dimension: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.date_dimension"} */
+select datediff(
+        day,
+        cast('2024-01-01' as date),
+        cast('2024-12-31' as date)
+        )
+[0m05:25:34.430710 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m05:25:34.707619 [debug] [Thread-2 (]: SQL status: SUCCESS 1 in 0.277 seconds
+[0m05:25:34.729577 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.date_dimension"
+[0m05:25:34.730584 [debug] [Thread-2 (]: Began executing node model.demo_dbt.date_dimension
+[0m05:25:34.731635 [debug] [Thread-2 (]: Finished running node model.demo_dbt.date_dimension
+[0m05:25:34.732351 [debug] [Thread-2 (]: Began running node model.demo_dbt.my_first_dbt_model
+[0m05:25:34.733476 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.date_dimension, now model.demo_dbt.my_first_dbt_model)
+[0m05:25:34.734142 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.my_first_dbt_model
+[0m05:25:34.741492 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.my_first_dbt_model"
+[0m05:25:34.742339 [debug] [Thread-2 (]: Began executing node model.demo_dbt.my_first_dbt_model
+[0m05:25:34.743326 [debug] [Thread-2 (]: Finished running node model.demo_dbt.my_first_dbt_model
+[0m05:25:34.744026 [debug] [Thread-2 (]: Began running node model.demo_dbt.sales_data
+[0m05:25:34.744975 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.my_first_dbt_model, now model.demo_dbt.sales_data)
+[0m05:25:34.745548 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.sales_data
+[0m05:25:34.759403 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.sales_data"
+[0m05:25:34.760250 [debug] [Thread-2 (]: Began executing node model.demo_dbt.sales_data
+[0m05:25:34.761245 [debug] [Thread-2 (]: Finished running node model.demo_dbt.sales_data
+[0m05:25:34.761962 [debug] [Thread-2 (]: Began running node model.demo_dbt.stg_customers
+[0m05:25:34.763051 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.sales_data, now model.demo_dbt.stg_customers)
+[0m05:25:34.763640 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.stg_customers
+[0m05:25:34.820185 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.stg_customers"
+[0m05:25:34.821791 [debug] [Thread-2 (]: On model.demo_dbt.stg_customers: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.stg_customers"} */
+describe table POC_DBT_PROJECT.RAW_VAULT.raw_customers
+[0m05:25:34.823854 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m05:25:35.144662 [debug] [Thread-2 (]: SQL status: SUCCESS 5 in 0.321 seconds
+[0m05:25:35.228397 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.stg_customers"
+[0m05:25:35.229149 [debug] [Thread-2 (]: On model.demo_dbt.stg_customers: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.stg_customers"} */
+describe table POC_DBT_PROJECT.RAW_VAULT.raw_customers
+[0m05:25:35.264467 [debug] [Thread-2 (]: SQL status: SUCCESS 5 in 0.035 seconds
+[0m05:25:35.401363 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.stg_customers"
+[0m05:25:35.402363 [debug] [Thread-2 (]: Began executing node model.demo_dbt.stg_customers
+[0m05:25:35.403401 [debug] [Thread-2 (]: Finished running node model.demo_dbt.stg_customers
+[0m05:25:35.404121 [debug] [Thread-2 (]: Began running node model.demo_dbt.stg_orders
+[0m05:25:35.405090 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.stg_customers, now model.demo_dbt.stg_orders)
+[0m05:25:35.405677 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.stg_orders
+[0m05:25:35.422685 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.stg_orders"
+[0m05:25:35.424237 [debug] [Thread-2 (]: On model.demo_dbt.stg_orders: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.stg_orders"} */
+describe table POC_DBT_PROJECT.RAW_VAULT.raw_orders
+[0m05:25:35.426289 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m05:25:35.701464 [debug] [Thread-2 (]: SQL status: SUCCESS 5 in 0.276 seconds
+[0m05:25:35.712995 [debug] [Thread-2 (]: Using snowflake connection "model.demo_dbt.stg_orders"
+[0m05:25:35.713734 [debug] [Thread-2 (]: On model.demo_dbt.stg_orders: /* {"app": "dbt", "dbt_version": "1.9.4", "profile_name": "demo_dbt", "target_name": "dev", "node_id": "model.demo_dbt.stg_orders"} */
+describe table POC_DBT_PROJECT.RAW_VAULT.raw_orders
+[0m05:25:35.745464 [debug] [Thread-2 (]: SQL status: SUCCESS 5 in 0.031 seconds
+[0m05:25:35.763012 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.stg_orders"
+[0m05:25:35.763916 [debug] [Thread-2 (]: Began executing node model.demo_dbt.stg_orders
+[0m05:25:35.764946 [debug] [Thread-2 (]: Finished running node model.demo_dbt.stg_orders
+[0m05:25:35.765707 [debug] [Thread-2 (]: Began running node test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b
+[0m05:25:35.766846 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.stg_orders, now test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b)
+[0m05:25:35.767464 [debug] [Thread-2 (]: Began compiling node test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b
+[0m05:25:35.787942 [debug] [Thread-2 (]: Writing injected SQL for node "test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b"
+[0m05:25:35.788889 [debug] [Thread-2 (]: Began executing node test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b
+[0m05:25:35.789896 [debug] [Thread-2 (]: Finished running node test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b
+[0m05:25:35.790605 [debug] [Thread-2 (]: Began running node test.demo_dbt.unique_date_dimension_date_day.507d4125ed
+[0m05:25:35.791343 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.demo_dbt.not_null_date_dimension_date_day.ae515fc70b, now test.demo_dbt.unique_date_dimension_date_day.507d4125ed)
+[0m05:25:35.791903 [debug] [Thread-2 (]: Began compiling node test.demo_dbt.unique_date_dimension_date_day.507d4125ed
+[0m05:25:35.803525 [debug] [Thread-2 (]: Writing injected SQL for node "test.demo_dbt.unique_date_dimension_date_day.507d4125ed"
+[0m05:25:35.804406 [debug] [Thread-2 (]: Began executing node test.demo_dbt.unique_date_dimension_date_day.507d4125ed
+[0m05:25:35.805417 [debug] [Thread-2 (]: Finished running node test.demo_dbt.unique_date_dimension_date_day.507d4125ed
+[0m05:25:35.806130 [debug] [Thread-2 (]: Began running node model.demo_dbt.my_second_dbt_model
+[0m05:25:35.806903 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.demo_dbt.unique_date_dimension_date_day.507d4125ed, now model.demo_dbt.my_second_dbt_model)
+[0m05:25:35.807536 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.my_second_dbt_model
+[0m05:25:35.814859 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.my_second_dbt_model"
+[0m05:25:35.815685 [debug] [Thread-2 (]: Began executing node model.demo_dbt.my_second_dbt_model
+[0m05:25:35.816654 [debug] [Thread-2 (]: Finished running node model.demo_dbt.my_second_dbt_model
+[0m05:25:35.817338 [debug] [Thread-2 (]: Began running node model.demo_dbt.sales_with_utils
+[0m05:25:35.818103 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.my_second_dbt_model, now model.demo_dbt.sales_with_utils)
+[0m05:25:35.818756 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.sales_with_utils
+[0m05:25:35.971468 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.sales_with_utils"
+[0m05:25:35.972429 [debug] [Thread-2 (]: Began executing node model.demo_dbt.sales_with_utils
+[0m05:25:35.973450 [debug] [Thread-2 (]: Finished running node model.demo_dbt.sales_with_utils
+[0m05:25:35.974191 [debug] [Thread-2 (]: Began running node test.demo_dbt.not_null_sales_data_sale_id.21b39be755
+[0m05:25:35.975028 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.sales_with_utils, now test.demo_dbt.not_null_sales_data_sale_id.21b39be755)
+[0m05:25:35.975652 [debug] [Thread-2 (]: Began compiling node test.demo_dbt.not_null_sales_data_sale_id.21b39be755
+[0m05:25:35.984716 [debug] [Thread-2 (]: Writing injected SQL for node "test.demo_dbt.not_null_sales_data_sale_id.21b39be755"
+[0m05:25:35.985563 [debug] [Thread-2 (]: Began executing node test.demo_dbt.not_null_sales_data_sale_id.21b39be755
+[0m05:25:35.986549 [debug] [Thread-2 (]: Finished running node test.demo_dbt.not_null_sales_data_sale_id.21b39be755
+[0m05:25:35.987248 [debug] [Thread-2 (]: Began running node test.demo_dbt.unique_sales_data_sale_id.8ac8202467
+[0m05:25:35.987980 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.demo_dbt.not_null_sales_data_sale_id.21b39be755, now test.demo_dbt.unique_sales_data_sale_id.8ac8202467)
+[0m05:25:35.988643 [debug] [Thread-2 (]: Began compiling node test.demo_dbt.unique_sales_data_sale_id.8ac8202467
+[0m05:25:35.999662 [debug] [Thread-2 (]: Writing injected SQL for node "test.demo_dbt.unique_sales_data_sale_id.8ac8202467"
+[0m05:25:36.000510 [debug] [Thread-2 (]: Began executing node test.demo_dbt.unique_sales_data_sale_id.8ac8202467
+[0m05:25:36.001449 [debug] [Thread-2 (]: Finished running node test.demo_dbt.unique_sales_data_sale_id.8ac8202467
+[0m05:25:36.002144 [debug] [Thread-2 (]: Began running node model.demo_dbt.hub_customer
+[0m05:25:36.002847 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.demo_dbt.unique_sales_data_sale_id.8ac8202467, now model.demo_dbt.hub_customer)
+[0m05:25:36.003400 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.hub_customer
+[0m05:25:36.043042 [info ] [Thread-2 (]: 05:25:36 + Loading POC_DBT_PROJECT.UTILS_raw_vault.hub_customer from 1 source(s)
+[0m05:25:36.121385 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.hub_customer"
+[0m05:25:36.122350 [debug] [Thread-2 (]: Began executing node model.demo_dbt.hub_customer
+[0m05:25:36.123347 [debug] [Thread-2 (]: Finished running node model.demo_dbt.hub_customer
+[0m05:25:36.124044 [debug] [Thread-2 (]: Began running node model.demo_dbt.sat_customer
+[0m05:25:36.124790 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.hub_customer, now model.demo_dbt.sat_customer)
+[0m05:25:36.125377 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.sat_customer
+[0m05:25:36.210333 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.sat_customer"
+[0m05:25:36.211258 [debug] [Thread-2 (]: Began executing node model.demo_dbt.sat_customer
+[0m05:25:36.212270 [debug] [Thread-2 (]: Finished running node model.demo_dbt.sat_customer
+[0m05:25:36.212969 [debug] [Thread-2 (]: Began running node model.demo_dbt.hub_order
+[0m05:25:36.213738 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.sat_customer, now model.demo_dbt.hub_order)
+[0m05:25:36.214308 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.hub_order
+[0m05:25:36.223746 [info ] [Thread-2 (]: 05:25:36 + Loading POC_DBT_PROJECT.UTILS_raw_vault.hub_order from 1 source(s)
+[0m05:25:36.227129 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.hub_order"
+[0m05:25:36.227949 [debug] [Thread-2 (]: Began executing node model.demo_dbt.hub_order
+[0m05:25:36.229025 [debug] [Thread-2 (]: Finished running node model.demo_dbt.hub_order
+[0m05:25:36.229741 [debug] [Thread-2 (]: Began running node model.demo_dbt.link_customer_order
+[0m05:25:36.230481 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.hub_order, now model.demo_dbt.link_customer_order)
+[0m05:25:36.231044 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.link_customer_order
+[0m05:25:36.246247 [info ] [Thread-2 (]: 05:25:36 + Loading POC_DBT_PROJECT.UTILS_raw_vault.link_customer_order from 1 source(s)
+[0m05:25:36.268632 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.link_customer_order"
+[0m05:25:36.269519 [debug] [Thread-2 (]: Began executing node model.demo_dbt.link_customer_order
+[0m05:25:36.270521 [debug] [Thread-2 (]: Finished running node model.demo_dbt.link_customer_order
+[0m05:25:36.271209 [debug] [Thread-2 (]: Began running node model.demo_dbt.sat_order
+[0m05:25:36.271954 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.demo_dbt.link_customer_order, now model.demo_dbt.sat_order)
+[0m05:25:36.272520 [debug] [Thread-2 (]: Began compiling node model.demo_dbt.sat_order
+[0m05:25:36.288728 [debug] [Thread-2 (]: Writing injected SQL for node "model.demo_dbt.sat_order"
+[0m05:25:36.289562 [debug] [Thread-2 (]: Began executing node model.demo_dbt.sat_order
+[0m05:25:36.290535 [debug] [Thread-2 (]: Finished running node model.demo_dbt.sat_order
+[0m05:25:36.292906 [debug] [Dummy-1   ]: Connection 'master' was properly closed.
+[0m05:25:36.293520 [debug] [Dummy-1   ]: Connection 'model.demo_dbt.sat_order' was properly closed.
+[0m05:25:36.296853 [debug] [Dummy-1   ]: Command end result
+[0m05:25:36.355529 [debug] [Dummy-1   ]: Wrote artifact WritableManifest to /tmp/dbt/target/manifest.json
+[0m05:25:36.358476 [debug] [Dummy-1   ]: Wrote artifact SemanticManifest to /tmp/dbt/target/semantic_manifest.json
+[0m05:25:36.368446 [debug] [Dummy-1   ]: Wrote artifact RunExecutionResult to /tmp/dbt/target/run_results.json
+[0m05:25:36.370516 [debug] [Dummy-1   ]: Resource report: {"command_name": "compile", "command_success": true, "command_wall_clock_time": 4.773071, "process_in_blocks": "0", "process_kernel_time": 1.19, "process_mem_max_rss": "435908", "process_out_blocks": "0", "process_user_time": 6.08}
+[0m05:25:36.371243 [debug] [Dummy-1   ]: Command `cli compile` succeeded at 05:25:36.370960 after 4.77 seconds
+[0m05:25:36.371811 [debug] [Dummy-1   ]: Flushing usage events

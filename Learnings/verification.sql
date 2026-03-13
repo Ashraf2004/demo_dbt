@@ -253,3 +253,17 @@ SHOW GRANTS ON SCHEMA POC_DBT_PROJECT.RAW_VAULT;
 
 GRANT SELECT ON TABLE POC_DBT_PROJECT.RAW_VAULT.RAW_CUSTOMERS TO ROLE DBT_CICD_ROLE;
 GRANT SELECT ON TABLE POC_DBT_PROJECT.RAW_VAULT.RAW_ORDERS TO ROLE DBT_CICD_ROLE;
+USE ROLE DBT_CICD_ROLE;
+SELECT * FROM POC_DBT_PROJECT.RAW_VAULT.RAW_CUSTOMERS LIMIT 1;
+
+EXECUTE DBT PROJECT my_tester_dbt_project_object_gh_action args='run --target dev'
+
+EXECUTE DBT PROJECT my_tester_dbt_project_object_gh_action args='compile --target dev';
+
+DESC DBT PROJECT my_tester_dbt_project_object_gh_action;
+
+SHOW VERSIONS IN DBT PROJECT my_tester_dbt_project_object_gh_action;
+
+-- Try this alternate syntax
+ALTER DBT PROJECT my_tester_dbt_project_object_gh_action 
+SET DEFAULT VERSION = LAST;
