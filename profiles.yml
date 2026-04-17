@@ -19,6 +19,7 @@ demo_dbt:
       schema: UTILS
       account: 'not needed'
       user: 'not needed' 
+      threads : 4
 
 # when you run dbt command the workspace uses the select profile command
 
