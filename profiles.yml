@@ -9,6 +9,7 @@ demo_dbt:
       schema: UTILS
       account: 'your-account-identifier'   # Your Snowflake account
       user: 'your-username'      # Your Snowflake username
+      threads: 4
 
     prod:
       type: snowflake
