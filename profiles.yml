@@ -3,9 +3,9 @@ demo_dbt:
   outputs:
     dev:
       type: snowflake
-      role: DBT_CICD_ROLE
+      role: ACCOUNTADMIN
       warehouse: COMPUTE_WH
-      database: POC_DBT_PROJECT
+      database: ONTOLOGY
       schema: UTILS
       account: 'your-account-identifier'   # Your Snowflake account
       user: 'your-username'      # Your Snowflake username
