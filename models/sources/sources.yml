@@ -2,7 +2,8 @@ version: 2
 
 sources:
   - name: raw_data
-    description: Raw source data
+    description: Raw source data from operational systems
+    database: DBT_DEV
     schema: RAW_VAULT
     tables:
       - name: raw_customers
@@ -10,6 +11,9 @@ sources:
         columns:
           - name: customer_id
             description: Unique customer identifier
+            tests:
+              - unique
+              - not_null
           - name: first_name
             description: Customer first name
           - name: last_name
@@ -18,17 +22,30 @@ sources:
             description: Customer email address
           - name: phone
             description: Customer phone number
+          - name: created_at
+            description: Record creation timestamp
+          - name: updated_at
+            description: Record last update timestamp
 
       - name: raw_orders
         description: Raw order data
         columns:
           - name: order_id
             description: Unique order identifier
+            tests:
+              - unique
+              - not_null
           - name: customer_id
             description: Customer who placed the order
+            tests:
+              - not_null
           - name: order_date
             description: Date the order was placed
           - name: total_amount
             description: Total order amount
           - name: status
             description: Order status
+          - name: created_at
+            description: Record creation timestamp
+          - name: updated_at
+            description: Record last update timestamp
