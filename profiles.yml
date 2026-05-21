@@ -5,7 +5,7 @@ demo_dbt:
       type: snowflake
       role: ACCOUNTADMIN
       warehouse: COMPUTE_WH
-      database: ONTOLOGY
+      database: DBT_DEV
       schema: UTILS
       account: 'your-account-identifier'   # Your Snowflake account
       user: 'your-username'      # Your Snowflake username
